@@ -15,6 +15,8 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
+import static com.example.kms.stumina.MainActivity.mainContext;
+
 public class LoadingActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +30,20 @@ public class LoadingActivity extends Activity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                try {
+                    MainActivity.returnFromServer = new ConnectTask().execute("stumina.azurewebsites.net/mobile/initApp","user_idx=1").get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                ((MainActivity)MainActivity.mainContext).setData("home");
+                ((MainActivity)MainActivity.mainContext).setData("leader");
+                ((MainActivity)MainActivity.mainContext).setData("notification");
+                ((MainActivity)MainActivity.mainContext).endLoadData();
+
                 finish();
             }
-        }, 2000);
+        }, 1000);
     }
 }

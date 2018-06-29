@@ -50,12 +50,12 @@ public class SchedulesActivity extends Activity {
                         finish();
                     }
                 });
-    /*  builder.setNegativeButton("아니오",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(),"아니오를 선택했습니다.",Toast.LENGTH_LONG).show();
-                    }
-                });*/
+        /*  builder.setNegativeButton("아니오",
+        new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(),"아니오를 선택했습니다.",Toast.LENGTH_LONG).show();
+            }
+        });*/
         builder.show();
     }
 
