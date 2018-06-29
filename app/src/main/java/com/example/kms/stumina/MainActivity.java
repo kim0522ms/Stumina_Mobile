@@ -1,9 +1,11 @@
 package com.example.kms.stumina;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
@@ -46,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<ImageView> imagesID = new ArrayList<>();
     public static String recievedJson = "";
     public static Context mainContext;
+
+    private static final int REQUEST_LOGIN = 1;
+    private static final int LOGIN_SUCCESS = 2;
+    private static final int LOGIN_FAILED = 3;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -111,8 +117,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mainContext = this;
 
-        Intent intent = new Intent(this, LoadingActivity.class);
-        startActivity(intent);
+        Intent intent = new Intent(this, LoginActivity.class);
+        //startActivity(intent);
+
+        startActivityForResult(intent, REQUEST_LOGIN);
 
         text_nodata = (TextView)findViewById(R.id.text_nodata);
         text_toptext = (TextView)findViewById(R.id.text_toptext);
@@ -125,6 +133,20 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listView);
 
         imageUrl = new ArrayList<>();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == LOGIN_SUCCESS) {
+            String user_idx = data.getStringExtra("user_idx");
+
+            Intent intent = new Intent(this, LoadingActivity.class);
+            intent.putExtra("user_idx", user_idx);
+            startActivity(intent);
+            return;
+        }
     }
 
     public void endLoadData(){

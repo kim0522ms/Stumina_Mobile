@@ -18,6 +18,8 @@
         </activity>
         <activity android:name=".LoadingActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity android:name=".LoginActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity android:name=".schedule.SchedulesActivity"
             />
     </application>
