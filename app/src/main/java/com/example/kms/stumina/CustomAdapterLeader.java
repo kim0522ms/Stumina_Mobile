@@ -1,4 +1,4 @@
-package com.example.kms.stumina.LeaderStudy;
+package com.example.kms.stumina;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,10 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.kms.stumina.CustomAdapter;
-import com.example.kms.stumina.CustomDTO;
-import com.example.kms.stumina.R;
-import com.example.kms.stumina.schedule.CustomAdapterSchedule;
 import com.example.kms.stumina.schedule.SchedulesActivity;
 
 import java.util.ArrayList;
@@ -29,6 +25,7 @@ public class CustomAdapterLeader extends BaseAdapter {
         this.context = context;
     }
 
+    // ListView에 보여질 Item 수
     @Override
     public int getCount() {
         return listCustom.size();
@@ -46,14 +43,14 @@ public class CustomAdapterLeader extends BaseAdapter {
         return position;
     }
 
-
+    // 실제로 Item이 보여지는 부분
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        CustomAdapterLeader.CustomViewHolder holder;
+        CustomViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_custom, null, false);
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_custom_leader, null, false);
 
-            holder = new CustomAdapterLeader.CustomViewHolder();
+            holder = new CustomViewHolder();
             holder.imageView = (ImageView) convertView.findViewById(R.id.imageView);
             imagesID.add(holder.imageView);
 
@@ -62,7 +59,7 @@ public class CustomAdapterLeader extends BaseAdapter {
 
             convertView.setTag(holder);
         } else {
-            holder = (CustomAdapterLeader.CustomViewHolder) convertView.getTag();
+            holder = (CustomViewHolder) convertView.getTag();
         }
 
         final CustomDTO dto = listCustom.get(position);

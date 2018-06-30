@@ -4,8 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import com.example.kms.stumina.FCM_Nofitication_Token.FirebaseInstanceIDService;
+import com.example.kms.stumina.FCM_Nofitication_Token.RegistTokenServerTask;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.w3c.dom.Text;
 
@@ -21,6 +27,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+
 import static com.example.kms.stumina.MainActivity.mainContext;
 
 public class LoadingActivity extends Activity {
@@ -35,8 +46,11 @@ public class LoadingActivity extends Activity {
         Intent intent = getIntent();
         user_idx = intent.getExtras().getString("user_idx");
 
+        new RegistTokenServerTask().execute(FirebaseInstanceId.getInstance().getToken(),user_idx);
+
         startLoading();
     }
+
     private void startLoading() {
         Handler handler = new Handler();
 

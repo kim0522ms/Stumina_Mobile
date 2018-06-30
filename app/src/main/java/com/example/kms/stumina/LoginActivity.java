@@ -15,6 +15,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -116,6 +118,7 @@ public class LoginActivity extends Activity {
                         SharedPreferences.Editor editor = autoLoginInfo.edit();
                         editor.putString("userid",userid);
                         editor.putString("userpasswd",userpasswd);
+                        editor.putString("auto", "true");
                         editor.commit();
                         Toast.makeText(getApplicationContext(), "자동 로그인 정보가 저장되었습니다.", Toast.LENGTH_SHORT).show();
                     }

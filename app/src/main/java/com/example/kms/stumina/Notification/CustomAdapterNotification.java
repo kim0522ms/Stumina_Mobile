@@ -56,9 +56,6 @@ public class CustomAdapterNotification extends BaseAdapter {
             holder.text_noti_text = (TextView) convertView.findViewById(R.id.text_noti_text);
 
             convertView.setTag(holder);
-
-            Log.d("테스트","뭐지?");
-
         } else {
             holder = (CustomAdapterNotification.CustomViewHolder) convertView.getTag();
         }
