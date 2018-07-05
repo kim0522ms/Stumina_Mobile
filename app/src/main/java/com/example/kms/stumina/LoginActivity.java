@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -107,10 +108,23 @@ public class LoginActivity extends Activity {
 
                 JSONObject returnedJobj = new JSONObject(loginResult);
 
-                Object temp = returnedJobj.get("return");
+                Object temp = returnedJobj.get("user_idx");
                 if (temp != null && !(temp.toString().equals("NO_MEMBER"))) {
+
+                    UserInfo userInfo = new UserInfo();
+
+                    userInfo.setUser_idx(returnedJobj.get("user_idx").toString());
+                    userInfo.setUser_area(returnedJobj.get("user_area").toString());
+                    userInfo.setUser_belong(returnedJobj.get("user_belong").toString());
+                    userInfo.setUser_jobno(returnedJobj.get("user_jobno").toString());
+                    userInfo.setUser_name(returnedJobj.get("user_name").toString());
+                    userInfo.setUser_phone(returnedJobj.get("user_phone").toString());
+                    userInfo.setUser_sex(returnedJobj.get("user_sex").toString());
+
+                    MainActivity.userInfo = userInfo;
+
                     Intent intent = new Intent();
-                    intent.putExtra("user_idx", temp.toString());
+                    intent.putExtra("user_idx", userInfo.getUser_idx());
                     setResult(LOGIN_SUCCESS, intent);
 
                     if (((CheckBox)findViewById(R.id.checkbox_autologin)).isChecked())

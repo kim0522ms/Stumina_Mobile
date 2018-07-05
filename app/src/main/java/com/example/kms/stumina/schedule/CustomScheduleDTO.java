@@ -5,6 +5,15 @@ public class CustomScheduleDTO {
     private String rsch_name;
     private String sr_name;
     private String sr_location;
+    private String rsch_idx;
+
+    public String getRsch_idx() {
+        return rsch_idx;
+    }
+
+    public void setRsch_idx(String rsch_idx) {
+        this.rsch_idx = rsch_idx;
+    }
 
     public String getRsch_date() {
         return rsch_date;

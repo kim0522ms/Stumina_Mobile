@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.kms.stumina.Attandance.AttendanceActivity;
 import com.example.kms.stumina.CustomDTO;
 import com.example.kms.stumina.R;
 
@@ -23,9 +24,29 @@ public class CustomAdapterSchedule  extends BaseAdapter {
 
     private ArrayList<CustomScheduleDTO> listCustom = new ArrayList<>();
     private Context context;
+    private String mode;
+    private String rsch_idx;
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+
+    public String getRsch_idx() {
+        return rsch_idx;
+    }
+
+    public void setRsch_idx(String rsch_idx) {
+        this.rsch_idx = rsch_idx;
+    }
+
 
     public CustomAdapterSchedule(Context context) {
         this.context = context;
+        this.mode = "";
     }
 
     @Override
@@ -67,13 +88,18 @@ public class CustomAdapterSchedule  extends BaseAdapter {
 
         final CustomScheduleDTO dto = listCustom.get(position);
 
-        // 해당 리스트 클릭 시 상세정보로 이동하기 위해 onClickListener 등록
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("클릭 테스트", "aaaa");
-            }
-        });
+
+        if (mode.equals("attendance")) {
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("찾을 스케쥴 번호 : ", "" + dto.getRsch_idx());
+                    Intent intent = new Intent(context, AttendanceActivity.class);
+                    intent.putExtra("rsch_idx", dto.getRsch_idx());
+                    context.startActivity(intent);
+                }
+            });
+        }
 
         SimpleDateFormat oldDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
         SimpleDateFormat yyyyFormat = new SimpleDateFormat("yyyy년");

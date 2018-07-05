@@ -1,6 +1,5 @@
-package com.example.kms.stumina.schedule;
+package com.example.kms.stumina.Attandance;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -9,10 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.Window;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.kms.stumina.ConnectTask;
 import com.example.kms.stumina.R;
@@ -21,35 +17,24 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class SchedulesActivity extends AppCompatActivity {
+public class AttendanceActivity extends AppCompatActivity {
 
-    private CustomAdapterSchedule adapter;
+    private CustomAdapterAttendance adapter;
     private ListView listView;
-    private String std_no;
-    private String mode;
-
-    public String getMode() {
-        return mode;
-    }
-
-    public void setMode(String mode) {
-        this.mode = mode;
-    }
+    private String rsch_idx;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedules);
+        setContentView(R.layout.activity_check);
 
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar_schedule);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar_attendance);
         setSupportActionBar(mToolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = new Intent(this.getIntent());
 
-        String[] datas = intent.getStringArrayExtra("datas");
-        std_no = datas[0];
-        mode = datas[1];
+        rsch_idx = intent.getStringExtra("rsch_idx");
 
         /*Bundle bundle = intent.getExtras();
 
@@ -66,15 +51,9 @@ public class SchedulesActivity extends AppCompatActivity {
         }
         */
 
-        System.out.println("스케쥴 찾을 스터디 번호 : " + std_no);
-        adapter = new CustomAdapterSchedule(this);
-        listView = (ListView) findViewById(R.id.listview_schedule);
-
-
-        if (mode.equals("attendance"))
-        {
-            adapter.setMode(mode);
-        }
+        System.out.println("출석 테이블 찾을 스케쥴 번호 : " + rsch_idx);
+        adapter = new CustomAdapterAttendance(this);
+        listView = (ListView) findViewById(R.id.listview_check);
 
         setData();
 
@@ -92,12 +71,11 @@ public class SchedulesActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     void errorAlertDialog()
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Error");
-        builder.setMessage("아직 설정된 스케쥴이 없습니다!");
+        builder.setMessage("서버와의 통신에 실패했습니다!");
         builder.setPositiveButton("확인",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -120,7 +98,7 @@ public class SchedulesActivity extends AppCompatActivity {
 
         String returnFromServer = null;
         try {
-            returnFromServer = new ConnectTask().execute("stumina.azurewebsites.net/mobile/getStudySchedule","std_no="+std_no).get();
+            returnFromServer = new ConnectTask().execute("stumina.azurewebsites.net/mobile/getScheduleAttendance","rsch_idx="+rsch_idx).get();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -137,13 +115,12 @@ public class SchedulesActivity extends AppCompatActivity {
                     JSONArray jArr = (JSONArray) temp;
 
                     for (int i = jArr.length() - 1; i >= 0 ; i--) {
-                        CustomScheduleDTO dto = new CustomScheduleDTO();
+                        CustomAttendanceDTO dto = new CustomAttendanceDTO();
 
-                        dto.setRsch_idx(jArr.getJSONObject(i).get("rsch_idx").toString());
-                        dto.setRsch_date(jArr.getJSONObject(i).get("rsch_date").toString());
-                        dto.setRsch_name(jArr.getJSONObject(i).get("rsch_name").toString());
-                        dto.setSr_name(jArr.getJSONObject(i).get("sr_name").toString());
-                        dto.setSr_location(jArr.getJSONObject(i).get("sr_location").toString());
+
+                        boolean absent = jArr.getJSONObject(i).get("absent").toString().equals("0") ? false : true;
+                        dto.setUser_name(jArr.getJSONObject(i).get("user_name").toString());
+                        dto.setAtt_value(absent);
                         adapter.addItem(dto);
                     }
                 }

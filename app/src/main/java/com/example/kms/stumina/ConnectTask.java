@@ -37,7 +37,7 @@ public class ConnectTask extends AsyncTask<String, String, String> {
             // [2-1]. urlConn 설정.
             urlConn.setRequestMethod("POST"); // URL 요청에 대한 메소드 설정 : POST.
             urlConn.setRequestProperty("Accept-Charset", "UTF-8"); // Accept-Charset 설정.
-            urlConn.setRequestProperty("Context_Type", "application/x-www-form-urlencoded;cahrset=UTF-8");
+            urlConn.setRequestProperty("Context_Type", "application/x-www-form-urlencoded;charset=UTF-8");
 
             OutputStream os = urlConn.getOutputStream();
             os.write(parameters.getBytes("UTF-8")); // 출력 스트림에 출력.

@@ -3,6 +3,11 @@ package com.example.kms.stumina;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.TextView;
 import android.content.Context;
@@ -23,6 +28,7 @@ import com.example.kms.stumina.Notification.NotificationDTO;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<ImageView> imagesID = new ArrayList<>();;
     public static String recievedJson = "";
     public static Context mainContext;
+    public static UserInfo userInfo;
 
     private static final int REQUEST_LOGIN = 1;
     private static final int LOGIN_SUCCESS = 2;
@@ -91,6 +98,15 @@ public class MainActivity extends AppCompatActivity {
 
         imageUrl = new ArrayList<>();
         FirebaseMessaging.getInstance().subscribeToTopic("news");
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar2);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer,toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
     }
 
     @Override
@@ -104,6 +120,14 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("user_idx", user_idx);
             startActivity(intent);
             return;
+        }
+    }
+
+    public void setNavigationUserInfo(){
+        if (userInfo != null)
+        {
+            ((TextView)findViewById(R.id.text_username)).setText(userInfo.getUser_name() + " 님");
+            ((TextView)findViewById(R.id.text_userbelong)).setText(userInfo.getUser_belong());
         }
     }
 
@@ -126,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setListImages(){
+        if (imageUrl.size() > 0 && imagesID.size() > 0)
         new Thread()
         {
             @Override

@@ -2,6 +2,7 @@ package com.example.kms.stumina;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -38,6 +39,8 @@ public class LoadingActivity extends Activity {
     private TextView text_loading;
     private String user_idx;
 
+    private SharedPreferences tokenInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +49,14 @@ public class LoadingActivity extends Activity {
         Intent intent = getIntent();
         user_idx = intent.getExtras().getString("user_idx");
 
-        new RegistTokenServerTask().execute(FirebaseInstanceId.getInstance().getToken(),user_idx);
+        tokenInfo = getSharedPreferences("tokenInfo", Activity.MODE_PRIVATE);
+
+        String token  = tokenInfo.getString("tokenInfo","");
+
+        if (token == null)
+        {
+            new RegistTokenServerTask().execute(FirebaseInstanceId.getInstance().getToken(),user_idx);
+        }
 
         startLoading();
     }
@@ -68,6 +78,7 @@ public class LoadingActivity extends Activity {
                 ((MainActivity)MainActivity.mainContext).setData("leader");
                 ((MainActivity)MainActivity.mainContext).setData("notification");
                 ((MainActivity)MainActivity.mainContext).endLoadData();
+                ((MainActivity)MainActivity.mainContext).setNavigationUserInfo();
 
                 text_loading = (TextView)findViewById(R.id.text_loading);
                 text_loading.setText("데이터 수신 완료");

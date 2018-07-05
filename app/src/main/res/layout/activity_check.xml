@@ -6,19 +6,19 @@
     android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_schedule"
+        android:id="@+id/toolbar_attendance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ToolBarStyle"
-        app:title="스케쥴을 선택해 주세요!" />
+        app:title="출석 체크" />
 
     <ListView
-        android:id="@+id/listview_schedule"
+        android:id="@+id/listview_check"
         android:layout_width="match_parent"
-        android:layout_height="454dp"
+        android:layout_height="551dp"
         android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_schedule"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_attendance"
         tools:layout_editor_absoluteX="8dp" />
 </android.support.constraint.ConstraintLayout>

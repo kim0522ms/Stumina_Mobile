@@ -70,7 +70,9 @@ public class CustomAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Log.d("클릭 테스트", dto.getStd_no());
                 Intent intent=new Intent(context, SchedulesActivity.class);
-                intent.putExtra("text",String.valueOf(dto.getStd_no()));
+                String[] datas = new String[]{String.valueOf(dto.getStd_no()), ""};
+                // intent.putExtra("text",String.valueOf(dto.getStd_no()));
+                intent.putExtra("datas",datas);
                 context.startActivity(intent);
             }
         });

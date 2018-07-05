@@ -2,6 +2,7 @@ package com.example.kms.stumina;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,7 +71,15 @@ public class CustomAdapterLeader extends BaseAdapter {
             public void onClick(View v) {
                 Log.d("클릭 테스트", dto.getStd_no());
                 Intent intent=new Intent(context, SchedulesActivity.class);
-                intent.putExtra("text",String.valueOf(dto.getStd_no()));
+/*
+                Bundle bundle = new Bundle();
+                bundle.putString("text",String.valueOf(dto.getStd_no()));
+                bundle.putString("mode","attendance");
+                intent.putExtra("bundle", bundle);*/
+
+                String[] datas = new String[]{String.valueOf(dto.getStd_no()), "attendance"};
+                //intent.putExtra("text",String.valueOf(dto.getStd_no()));
+                intent.putExtra("datas",datas);
                 context.startActivity(intent);
             }
         });
