@@ -12,7 +12,20 @@
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ToolBarStyle"
-        app:title="출석 체크" />
+        app:title="출석 체크">
+
+        <TextView
+            android:id="@+id/btn_submitAttendance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:text="저장하기"
+            android:textSize="17dp"
+            android:layout_marginRight="15dp"
+            />
+    </android.support.v7.widget.Toolbar>
 
     <ListView
         android:id="@+id/listview_check"

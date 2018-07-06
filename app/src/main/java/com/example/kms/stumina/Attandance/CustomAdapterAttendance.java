@@ -1,6 +1,8 @@
 package com.example.kms.stumina.Attandance;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +78,25 @@ public class CustomAdapterAttendance extends BaseAdapter {
         }
 
         final CustomAttendanceDTO dto = listCustom.get(position);
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("선택된 회원명 : ", "" + dto.getUser_name());
+                holder.cb_attendance.setChecked(!(holder.cb_attendance.isChecked()));
+                dto.setAtt_value(holder.cb_attendance.isChecked());
+                listCustom.set(position,dto);
+            }
+        });
+
+        (convertView.findViewById(R.id.cb_attendance)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dto.setAtt_value(holder.cb_attendance.isChecked());
+                listCustom.set(position,dto);
+            }
+        });
+
 
         holder.text_checkAttName.setText(dto.getUser_name());
         holder.cb_attendance.setChecked(dto.isAtt_value());
