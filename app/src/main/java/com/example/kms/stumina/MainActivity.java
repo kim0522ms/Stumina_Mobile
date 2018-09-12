@@ -1,10 +1,13 @@
 package com.example.kms.stumina;
 
+import com.example.kms.stumina.Beacon.BeaconScanner;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -25,6 +28,8 @@ import android.widget.ListView;
 import com.example.kms.stumina.Notification.CustomAdapterNotification;
 import com.example.kms.stumina.Notification.NotificationDTO;
 
+import org.altbeacon.beacon.Beacon;
+import org.altbeacon.beacon.BeaconManager;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
     private static CustomAdapterNotification adapter_notification;
     public static ListView listView;
     private ArrayList<String> imageUrl;
-    private TextView text_nodata, text_toptext;
+    private TextView text_nodata, text_toptext, text_scanner;
+    private ImageView image_scanner;
 
     public static String returnFromServer;
     public static ArrayList<ImageView> imagesID = new ArrayList<>();;
@@ -55,6 +61,12 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_LOGIN = 1;
     private static final int LOGIN_SUCCESS = 2;
     private static final int LOGIN_FAILED = 3;
+
+    // 서버 주소
+    public static final String server_url = "192.168.0.7:8082/Graduation_KMS";
+
+    // 출석 감지용 비콘
+    BeaconScanner beaconScanner;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -67,6 +79,10 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_dashboard2:
                     changeTab("leader");
+                    return true;
+                case R.id.navigation_ble_scan:
+                    //TODO : 스캐너 화면으로 탭 이동
+                    changeTab("scan");
                     return true;
                 case R.id.navigation_notifications:
                     changeTab("notification");
@@ -88,6 +104,9 @@ public class MainActivity extends AppCompatActivity {
 
         text_nodata = (TextView)findViewById(R.id.text_nodata);
         text_toptext = (TextView)findViewById(R.id.text_toptext);
+        text_scanner = (TextView)findViewById(R.id.text_scanner);
+
+        image_scanner = (ImageView) findViewById(R.id.image_scanner);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottomnavigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -107,6 +126,9 @@ public class MainActivity extends AppCompatActivity {
 
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        // 비콘 스캐너 객체 생성
+        beaconScanner = new BeaconScanner(this);
     }
 
     @Override
@@ -311,6 +333,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void changeTab(String tabName)
     {
+        text_scanner.setVisibility(View.INVISIBLE);
+        image_scanner.setVisibility(View.INVISIBLE);
+        beaconScanner.stopScan();
+
         if (tabName.equals("home"))
         {
             text_toptext.setText("참여 중인 스터디 목록");
@@ -329,7 +355,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else if (tabName.equals("leader"))
         {
-            text_toptext.setText("출석 체크할 스터디를 선택해 주세요.");
+            text_toptext.setText("출석을 관리할 스터디를 선택해 주세요.");
 
             Log.d("테스트","" + adapter_leader.getCount());
             if (adapter_leader == null || adapter_leader.getCount() == 0)
@@ -344,6 +370,18 @@ public class MainActivity extends AppCompatActivity {
                 text_nodata.setVisibility(View.INVISIBLE);
                 listView.setVisibility(View.VISIBLE);
             }
+        }
+        else if (tabName.equals("scan"))
+        {
+            text_toptext.setText("출석 체크 모드");
+
+            listView.setVisibility(View.INVISIBLE);
+            text_nodata.setVisibility(View.INVISIBLE);
+
+            text_scanner.setVisibility(View.VISIBLE);
+            image_scanner.setVisibility(View.VISIBLE);
+
+            beaconScanner.startScan();
         }
         else if (tabName.equals("notification"))
         {

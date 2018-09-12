@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.kms.stumina.MainActivity;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -47,7 +49,7 @@ public class UpdateAttendanceTask extends AsyncTask<String, Void, Void> {
 
         URL url = null;
         try {
-            url = new URL("https://stumina.azurewebsites.net/mobile/updateAbsent");
+            url = new URL("http://"+ MainActivity.server_url + "/mobile/updateAbsent");
 
             urlConn = (HttpURLConnection) url.openConnection();
 

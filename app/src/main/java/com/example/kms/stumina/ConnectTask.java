@@ -18,7 +18,7 @@ import java.util.Iterator;
 
 public class ConnectTask extends AsyncTask<String, String, String> {
     String sendMsg, receiveMsg = "", parameters = "";
-    String serverAddress = "https://";
+    String serverAddress = "http://";
 
     @Override
     protected String doInBackground(String... strings) {

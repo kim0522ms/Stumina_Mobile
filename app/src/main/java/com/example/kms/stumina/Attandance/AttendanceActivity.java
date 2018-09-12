@@ -182,7 +182,7 @@ public class AttendanceActivity extends AppCompatActivity /*implements Navigatio
 
         String returnFromServer = null;
         try {
-            returnFromServer = new ConnectTask().execute("stumina.azurewebsites.net/mobile/getScheduleAttendance","rsch_idx="+rsch_idx).get();
+            returnFromServer = new ConnectTask().execute(MainActivity.server_url + "/mobile/getScheduleAttendance","rsch_idx="+rsch_idx).get();
         } catch (Exception e) {
             e.printStackTrace();
         }

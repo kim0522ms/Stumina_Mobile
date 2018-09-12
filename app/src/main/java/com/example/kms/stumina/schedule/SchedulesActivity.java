@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kms.stumina.ConnectTask;
+import com.example.kms.stumina.MainActivity;
 import com.example.kms.stumina.R;
 
 import org.json.JSONArray;
@@ -120,7 +121,7 @@ public class SchedulesActivity extends AppCompatActivity {
 
         String returnFromServer = null;
         try {
-            returnFromServer = new ConnectTask().execute("stumina.azurewebsites.net/mobile/getStudySchedule","std_no="+std_no).get();
+            returnFromServer = new ConnectTask().execute(MainActivity.server_url + "/mobile/getStudySchedule","std_no="+std_no).get();
         } catch (Exception e) {
             e.printStackTrace();
         }

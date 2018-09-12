@@ -100,7 +100,7 @@ public class LoginActivity extends Activity {
 
     private void tryLogin(String userid, String userpasswd){
         try {
-            String loginResult =  new ConnectTask().execute("stumina.azurewebsites.net/mobile/login","user_id="+userid + "&user_pw=" + userpasswd).get();
+            String loginResult =  new ConnectTask().execute(MainActivity.server_url + "/mobile/login","user_id="+userid + "&user_pw=" + userpasswd).get();
 
             if (loginResult != null)
             {

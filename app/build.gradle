@@ -23,7 +23,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
@@ -32,13 +32,11 @@ dependencies {
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.google.android.gms:play-services-gcm:15.0.1'
     implementation 'com.google.firebase:firebase-core:16.0.1'
-
     implementation 'com.microsoft.azure:notification-hubs-android-sdk:0.4@aar'
     implementation 'com.microsoft.azure:azure-notifications-handler:1.0.1@aar'
-
     implementation 'com.google.firebase:firebase-messaging:17.1.0'
-
     implementation 'com.squareup.okhttp3:okhttp:3.2.0'
+    implementation project(':android-beacon-library-2.15')
 }
 
 repositories {

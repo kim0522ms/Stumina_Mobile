@@ -68,7 +68,7 @@ public class LoadingActivity extends Activity {
             @Override
             public void run() {
                 try {
-                    MainActivity.returnFromServer = new ConnectTask().execute("stumina.azurewebsites.net/mobile/initApp","user_idx="+user_idx).get();
+                    MainActivity.returnFromServer = new ConnectTask().execute(MainActivity.server_url + "/mobile/initApp","user_idx="+user_idx).get();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
