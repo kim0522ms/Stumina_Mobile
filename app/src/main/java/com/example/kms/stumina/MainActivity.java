@@ -62,8 +62,10 @@ public class MainActivity extends AppCompatActivity {
     private static final int LOGIN_SUCCESS = 2;
     private static final int LOGIN_FAILED = 3;
 
+    private String user_idx;
+
     // 서버 주소
-    public static final String server_url = "192.168.0.7:8082/Graduation_KMS";
+    public static final String server_url = "192.168.43.50:8082/Graduation_KMS";
 
     // 출석 감지용 비콘
     BeaconScanner beaconScanner;
@@ -128,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
         toggle.syncState();
 
         // 비콘 스캐너 객체 생성
-        beaconScanner = new BeaconScanner(this);
     }
 
     @Override
@@ -136,7 +137,10 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == LOGIN_SUCCESS) {
-            String user_idx = data.getStringExtra("user_idx");
+            user_idx = data.getStringExtra("user_idx");
+
+            // user_idx를 얻은 뒤에 비콘 스캐너를 생성해야 함.. 나중에 고치자
+            beaconScanner = new BeaconScanner(this, user_idx);
 
             Intent intent = new Intent(this, LoadingActivity.class);
             intent.putExtra("user_idx", user_idx);
